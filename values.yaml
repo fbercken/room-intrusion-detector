@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: myregistry.local/vision/room-intrusion-detector
+  repository: tessarine/room-intrusion-detector
   pullPolicy: IfNotPresent
   tag: "1.0.0"
 
