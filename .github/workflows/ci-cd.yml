@@ -3,11 +3,11 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main  # Triggers when code is pushed to main branch
+      - main # Triggers when code is pushed to main branch
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: ${{ github.repository }} # e.g. username/room-intrusion-detector
+  IMAGE_NAME: tessarrine/room-intrusion-detector
 
 jobs:
   build-and-push:
@@ -64,7 +64,7 @@ jobs:
           SHORT_SHA=$(git rev-parse --short HEAD)
           # Update the tag field in values.yaml automatically using sed
           sed -i 's/tag: ".*"/tag: "sha-'$SHORT_SHA'"/' values.yaml
-          
+
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.io"
           git commit -am "chore(helm): update image tag to sha-$SHORT_SHA"
