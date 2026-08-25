@@ -57,6 +57,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          repository: fbercken/room-intrusion-detector
           token: ${{ secrets.GH_PAT }} # Personal Access Token with repo write access
 
       - name: Update image tag in values.yaml
