@@ -70,5 +70,6 @@ jobs:
 
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.io"
-          git commit -am "chore(helm): update image tag to sha-$SHORT_SHA"
+          git add values.yaml
+          git commit -m "chore(helm): update image tag to sha-$SHORT_SHA"
           git push
