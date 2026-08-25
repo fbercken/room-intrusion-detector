@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "room-intrusion-detector.fullname" . }}
+  labels:
+    app: {{ include "room-intrusion-detector.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "room-intrusion-detector.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "room-intrusion-detector.fullname" . }}
+    spec:
+      containers:
+        - name: intrusion-processor
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "room-intrusion-detector.fullname" . }}-config
+            - secretRef:
+                name: {{ include "room-intrusion-detector.fullname" . }}-s3-secret
+          resources:
+            {{- toYaml .Values.resources | nindent 12 -}}
