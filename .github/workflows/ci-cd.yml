@@ -59,12 +59,14 @@ jobs:
         with:
           repository: fbercken/room-intrusion-detector
           token: ${{ secrets.GH_PAT }} # Personal Access Token with repo write access
+          fetch-depth: 0
 
       - name: Update image tag in values.yaml
         run: |
           SHORT_SHA=$(git rev-parse --short HEAD)
           # Update the tag field in values.yaml automatically using sed
           sed -i 's/tag: ".*"/tag: "sha-'$SHORT_SHA'"/' values.yaml
+
 
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.io"
