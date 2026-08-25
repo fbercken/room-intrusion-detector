@@ -6,7 +6,7 @@ image:
   tag: "1.0.0"
 
 kafka:
-  bootstrapServers: "localhost:9092"
+  bootstrapServers: "datafabric01.ezmeral.demo.hpelabs.fr:9092"
   topic: "room-intrusion-events"
 
 s3:
