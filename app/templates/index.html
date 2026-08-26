@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Room Intrusion Detector Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- Left Panel: Hierarchical Tree -->
+    <div id="left-panel">
+        <h2>Locations</h2>
+        <div id="tree-root">Loading hierarchy...</div>
+    </div>
+
+    <!-- Right Panel: Video / Replay Stream Viewer -->
+    <div id="right-panel">
+        <h2 id="active-view-title">Select a camera from the tree</h2>
+        <div class="controls">
+            <button onclick="switchMode('live')">Live Mode</button>
+            <button onclick="switchMode('replay')">Replay Mode</button>
+            <input type="number" id="replay-timestamp" placeholder="Epoch Timestamp">
+        </div>
+        <div id="video-container">
+            <p>No camera selected</p>
+        </div>
+    </div>
+
+    <script>
+        let currentRoom = null;
+        let mode = 'live';
+
+        fetch('/api/tree')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('tree-root').innerHTML = buildTreeHtml(data);
+            });
+
+        function buildTreeHtml(obj) {
+            let html = '<ul>';
+            for (let key in obj) {
+                if (obj[key].rtsp_url) {
+                    html += `<li class="room-node" onclick="selectCamera('${key}')">📹 ${key}</li>`;
+                } else {
+                    html += `<li>📁 ${key} ${buildTreeHtml(obj[key])}</li>`;
+                }
+            }
+            html += '</ul>';
+            return html;
+        }
+
+        function selectCamera(roomName) {
+            currentRoom = roomName;
+            document.getElementById('active-view-title').innerText = `Camera View: ${roomName}`;
+            loadStream();
+        }
+
+        function switchMode(newMode) {
+            mode = newMode;
+            loadStream();
+        }
+
+        function loadStream() {
+            if (!currentRoom) return;
+            const container = document.getElementById('video-container');
+
+            if (mode === 'live') {
+                container.innerHTML = `<img src="/api/live/${currentRoom}" alt="Live Stream">`;
+            } else {
+                const ts = document.getElementById('replay-timestamp').value;
+                if (!ts) {
+                    alert("Please input a valid epoch timestamp for replay.");
+                    return;
+                }
+                container.innerHTML = `<img src="/api/replay/${currentRoom}/${ts}" alt="Replay Snapshot">`;
+            }
+        }
+    </script>
+</body>
+
+</html>

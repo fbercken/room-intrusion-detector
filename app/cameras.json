@@ -1,0 +1,19 @@
+{
+    "Building A": {
+        "Server Rooms": {
+            "Server-Room-1": {
+                "rtsp_url": "rtsp://camera1.local/stream"
+            },
+            "Server-Room-2": {
+                "rtsp_url": "rtsp://camera2.local/stream"
+            }
+        }
+    },
+    "Building B": {
+        "Exits": {
+            "Main-Entrance": {
+                "rtsp_url": "rtsp://camera3.local/stream"
+            }
+        }
+    }
+}
