@@ -2,9 +2,6 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-#COPY app/ .
-#CMD ["python", "main.py"]
-
 WORKDIR /app
 
 # Install system utilities and cv2 prerequisites
@@ -16,10 +13,7 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY cameras.json .
-COPY app.py .
-COPY static/ ./static/
-COPY templates/ ./templates/
+COPY app/ .
 
 EXPOSE 8000
 
