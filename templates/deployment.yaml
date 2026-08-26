@@ -15,9 +15,13 @@ spec:
         app: {{ include "room-intrusion-detector.fullname" . }}
     spec:
       containers:
-        - name: intrusion-processor
+        - name: room-intrusion-detector
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8000
+          # Ensure correct uvicorn command format without .py
+          args: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
           envFrom:
             - configMapRef:
                 name: {{ include "room-intrusion-detector.fullname" . }}-config
@@ -25,3 +29,4 @@ spec:
                 name: {{ include "room-intrusion-detector.fullname" . }}-s3-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 -}}
+
