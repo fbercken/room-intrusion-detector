@@ -32,4 +32,3 @@ spec:
                 name: {{ include "room-intrusion-detector.fullname" . }}-s3-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 -}}
-
