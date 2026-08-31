@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: tessarine/room-intrusion-detector
   pullPolicy: IfNotPresent
-  tag: "sha-29fbdaf"
+  tag: "sha-0a29344"
 
 kafka:
   bootstrapServers: "datafabric01.ezmeral.demo.hpelabs.fr:9092"
